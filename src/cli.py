@@ -34,11 +34,10 @@ def main() -> None:
 
         if parsed is None:
             # comment or whitespace line inside session (ignored)
-            pass
+            continue  # just skip silently
         else:
             cmd, args = parsed
 
-            # Dispatch with minimal argument plumbing.
             try:
                 if cmd == "CREATE":
                     if len(args) != 2:
@@ -68,7 +67,6 @@ def main() -> None:
                     else:
                         quantum = int(args[0])
                         steps = int(args[1]) if len(args) == 2 else None
-                        # Expect Scheduler.run to return *all* logs in order.
                         logs.extend(sched.run(quantum, steps))
 
                 else:
@@ -78,7 +76,6 @@ def main() -> None:
                 # e.g., non-integer capacity/quantum/steps
                 logs.extend([f"time=? event=error reason=bad_args"])
 
-        # Print logs produced by this line
         if logs:
             print("\n".join(logs))
 
