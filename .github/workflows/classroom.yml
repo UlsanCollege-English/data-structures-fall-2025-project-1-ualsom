@@ -13,12 +13,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
     - name: test
       id: test
       uses: classroom-resources/autograding-python-grader@v1
       with:
         timeout: 10
-        setup-command: ''
+        setup-command: 'pip install pytest'
+      env:
+        PYTHONPATH: src
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
